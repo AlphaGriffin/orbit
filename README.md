@@ -19,7 +19,7 @@ Build all the common tasks as follows:
 
     make all
 
-To clean up all the common generated files from your project folder::
+To clean up all the common generated files from your project folder:
 
     make clean
 
@@ -27,7 +27,7 @@ To clean up all the common generated files from your project folder::
 Installing
 ----------
 
-To install this project to the local system::
+To install this project to the local system:
 
     make install
 
