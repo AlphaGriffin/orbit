@@ -1,5 +1,5 @@
-fauxproject
-===========
+faux project
+============
 
 Beginning project.
 
