@@ -1,7 +1,7 @@
 # Copyright (C) 2017 Alpha Griffin
 # @%@~LICENSE~@%@
 #
-# A most basic make file.
+# A simple make file for any Python project.
 
 
 .PHONY: default
@@ -14,32 +14,34 @@ help:
 	@echo "Please use \`make <target>' where <target> is one of"
 	@echo "  help           display this help screen"
 	@echo ""
-	@echo "  all            to make all common tasks: example"
-	@echo "  clean          to clean all common tasks: example_clean"
+	@echo "  all            to make all common tasks: python"
+	@echo "  clean          to clean all common tasks: python_clean"
 	@echo ""
 	@echo "  install        to install what has been built to the system (first try make all)"
 	@echo ""
-	@echo "  example        to build this example"
-	@echo "  example_clean  to clean up after this example build"
+	@echo "  python         to build Python code"
+	@echo "  python_clean   to clean up after Python build"
 
 
-all:	example
+all:	python
 
-clean:	example_clean
+clean:	python_clean
 
 
 
-example:
-	@echo Congratulations...example build does nothing!
+python:
+	./setup.py build_py
 
-example_clean:
-	@echo Congratulations...example build has nothing to clean up!
+python_clean:
+	./setup.py clean
+	rm -rf build
+	rm -rf *.egg-info
+	find . -type d -name __pycache__ | xargs -r rm -r
 
 
 
 install:
-	@echo Congratulations...faux project has nothing to install!
-
+	./setup.py install
 
 
 
