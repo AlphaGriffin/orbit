@@ -1,12 +1,12 @@
 # Copyright (C) 2017 Alpha Griffin
 # @%@~LICENSE~@%@
 
-"""DummyScript
+"""Alpha Griffin
 
 This package-init script currently simply handles namespace sharing.
 
-.. module:: dummyscript
-   :synopsis: DummyScript Namespace
+.. module:: ag
+   :synopsis: Alpha Griffin Namespace
 """
 #    (from http://github.com/google/protobuf)
 

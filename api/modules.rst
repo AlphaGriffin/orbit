@@ -1,7 +1,7 @@
-dummyscript
-===========
+ag
+==
 
 .. toctree::
    :maxdepth: 4
 
-   dummyscript
+   ag

@@ -74,7 +74,7 @@ install:
 
 
 apidoc:
-	sphinx-apidoc dummyscript -o api
+	sphinx-apidoc ag -o api
 
 apidoc_clean:
 	rm -rf api

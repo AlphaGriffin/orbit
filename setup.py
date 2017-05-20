@@ -3,7 +3,7 @@
 # Copyright (C) 2017 Alpha Griffin
 # @%@~LICENSE~@%@
 
-"""DummyScript Python setuptools build script.
+"""Alpha Griffin Python setuptools build script.
 
 @author lannocc
 
@@ -26,19 +26,19 @@ Some of this script logic also taken from:
 #   All the variables defined here should be customized for your project.
 #
 
-NS      = 'dummyscript'                 # namespace / meta-package folder
-NAME    = 'fauxpython'                  # should match source package name in NS folder
+NS      = 'ag'                          # namespace / meta-package folder
+NAME    = 'pyproject'                   # should match source package name in NS folder
 REQUIRE = [ 'sphinx_rtd_theme' ]        # package dependencies
 
-DESC    = 'DummyScript Starter Python Project'
+DESC    = 'Alpha Griffin Starter Python Project'
 TAGS    = 'example utilities'           # space-separated list of keywords
 
-AUTHOR  = 'DummyScript'                 # name or alias of author
+AUTHOR  = 'lannocc'                     # name or alias of author
 EMAIL   = 'lannocc@alphagriffin.com'    # email of author
 
-URL     = 'http://dummyscript.com'
-LICENSE = ''                            # type of license
-COPY    = '2017 Dummy Script'           # copyright
+URL     = 'http://alphagriffin.com'
+LICENSE = 'AG'                          # type of license
+COPY    = '2017 Alpha Griffin'          # copyright
 
 CLASS   = [
     # @see https://pypi.python.org/pypi?%3Aaction=list_classifiers

@@ -134,8 +134,8 @@ html_theme = 'sphinx_rtd_theme'
 # further.  For a list of options available for each theme, see the
 # documentation.
 html_theme_options = {
-        #'canonical_url': 'http://doc.dummyscript.com/' + NAME,
-        #'analytics_id': 'UA-36092231-27',
+        #'canonical_url': 'http://doc.alphagriffin.com/' + NAME,
+        'analytics_id': 'UA-36092231-27',
         'display_version': True,
         'sticky_navigation': True,
         'collapse_navigation': False,
@@ -156,12 +156,12 @@ html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 
 # The name of an image file (relative to this directory) to place at the top
 # of the sidebar.
-#html_logo = '_static/favicon-196.png'
+html_logo = '_static/favicon-196.png'
 
 # The name of an image file (within the static path) to use as favicon of the
 # docs.  This file should be a Windows icon file (.ico) being 16x16 or 32x32
 # pixels large.
-#html_favicon = '_static/favicon.ico'
+html_favicon = '_static/favicon.ico'
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,

@@ -1,17 +1,17 @@
-dummyscript package
-===================
+ag package
+==========
 
 Subpackages
 -----------
 
 .. toctree::
 
-    dummyscript.fauxpython
+    ag.pyproject
 
 Module contents
 ---------------
 
-.. automodule:: dummyscript
+.. automodule:: ag
     :members:
     :undoc-members:
     :show-inheritance:
