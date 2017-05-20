@@ -3,7 +3,7 @@
 # Copyright (C) 2017 Alpha Griffin
 # @%@~LICENSE~@%@
 
-"""Python setuptools build script.
+"""DummyScript Python setuptools build script.
 
 @author lannocc
 
@@ -28,7 +28,7 @@ Some of this script logic also taken from:
 
 NS      = 'dummyscript'                 # namespace / meta-package folder
 NAME    = 'fauxpython'                  # should match source package name in NS folder
-REQUIRE = [ ]                           # package dependencies
+REQUIRE = [ 'sphinx_rtd_theme' ]        # package dependencies
 
 DESC    = 'DummyScript Starter Python Project'
 TAGS    = 'example utilities'           # space-separated list of keywords

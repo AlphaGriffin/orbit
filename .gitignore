@@ -3,6 +3,12 @@
 /build/
 /dist/
 
+/doc/doctrees
+/doc/man
+/doc/html
+/doc/text
+/doc/coverage
+
 __pycache__
 
 *.egg-info/
