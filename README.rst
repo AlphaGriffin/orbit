@@ -2,7 +2,9 @@
 Alpha Griffin Python Starter Project
 ====================================
 
-Starting point for a Python project.
+Starting point for a Python project in the Alpha Griffin namespace.
+
+Use http://git.alphagriffin.com/DummyScript/fauxpython instead if you're not packaging for Alpha Griffin.
 
 .. contents:: Table of Contents
 .. toctree::
