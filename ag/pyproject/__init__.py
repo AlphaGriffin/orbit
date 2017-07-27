@@ -14,5 +14,5 @@ conventions and standards.
 
 from ag.pyproject.__version__ import __version__
 
-print ("Sample Alpha Griffin Python project version %s successfully installed!" % (__version__))
+print ("Sample Alpha Griffin Python project version %s detected" % (__version__))
 

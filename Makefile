@@ -32,6 +32,7 @@ help:
 	@echo "  all            to make all common tasks: python, docs"
 	@echo "  clean          to clean all common tasks: python_clean, docs_clean"
 	@echo ""
+	@echo "  run            run the application in-place"
 	@echo "  install        to install what has been built to the system (first try make all)"
 	@echo ""
 	@echo "  python         to build Python code"
@@ -63,6 +64,8 @@ python_clean:
 	find . -type d -name __pycache__ | xargs -r rm -r
 
 
+run:
+	./pyproject
 
 install:
 	./setup.py install
