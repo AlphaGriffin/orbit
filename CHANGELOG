@@ -1,13 +1,5 @@
-Copyright (C) 2017 Alpha Griffin
+Copyright (C) 2018 Alpha Griffin
 @%@~LICENSE~@%@
 
-saw_072617_1 - Add a __main__.py, simple executable script, and "run" Makefile target.
-
-saw_052817_1 - Add a note to the README.
-
-saw_052017_2 - First commit for the new pyproject, fork of fauxpython for ag namespace.
-
-saw_052017_1 - Incorporate work from pyproject... the Sphinx documentation setup, etc.
-
-saw_042017_1 - First commit for fauxpython.
+saw_072318_1 - First commit for ORBIT (nothing yet).
 

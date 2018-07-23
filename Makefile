@@ -1,4 +1,4 @@
-# Copyright (C) 2017 Alpha Griffin
+# Copyright (C) 2017-2018 Alpha Griffin
 # @%@~LICENSE~@%@
 #
 # A simple make file for any Python project.
@@ -65,7 +65,7 @@ python_clean:
 
 
 run:
-	./pyproject
+	./orbit
 
 install:
 	./setup.py install

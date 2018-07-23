@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #
-# Copyright (C) 2017 Alpha Griffin
+# Copyright (C) 2017-2018 Alpha Griffin
 # @%@~LICENSE~@%@
 
 """Alpha Griffin Python setuptools build script.
@@ -27,18 +27,18 @@ Some of this script logic also taken from:
 #
 
 NS      = 'ag'                          # namespace / meta-package folder
-NAME    = 'pyproject'                   # should match source package name in NS folder
+NAME    = 'orbit'                       # should match source package name in NS folder
 REQUIRE = [ 'sphinx_rtd_theme' ]        # package dependencies
 
-DESC    = 'Alpha Griffin Starter Python Project'
-TAGS    = 'example utilities'           # space-separated list of keywords
+DESC    = 'Op_Return Bitcoin Implemented Tokens'
+TAGS    = 'utilities'                   # space-separated list of keywords
 
 AUTHOR  = 'lannocc'                     # name or alias of author
 EMAIL   = 'lannocc@alphagriffin.com'    # email of author
 
-URL     = 'http://alphagriffin.com'
-LICENSE = 'AG'                          # type of license
-COPY    = '2017 Alpha Griffin'          # copyright
+URL     = 'http://orbit.alphagriffin.com'
+LICENSE = 'MIT'                         # type of license
+COPY    = '2018 Alpha Griffin'          # copyright
 
 CLASS   = [
     # @see https://pypi.python.org/pypi?%3Aaction=list_classifiers
