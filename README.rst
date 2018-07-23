@@ -16,7 +16,7 @@ Introduction
 
 ORBIT is a specification for simple, fungible tokens implemented by utilizing OP_RETURN for the storage of token events on the Bitcoin Cash blockchain. No changes to the Bitcoin Cash protocol or nodes are required. However, wallets may wish to incorporate this token standard in order to allow the user to easily take account of and interact with tokens that adhere to this ORBIT standard.
 
-ORBIT is open source and licensed under the MIT license. See the `LICENSE`_ file for more details.
+ORBIT is open source and licensed under the MIT license. See the `LICENSE <LICENSE>`_ file for more details.
 
 
 Specification Overview
@@ -24,9 +24,9 @@ Specification Overview
 
 This repository (https://github.com/AlphaGriffin/orbit) defines the official and complete specification for ORBIT. 
 
-*The current specification version is ``0`` (beta testing). Version 0 is reserved and should be used for all testing.*
+*The current specification version is: 0 (beta testing). Version 0 is reserved and should be used for all testing.*
 
-Only a basic overview of the specification is provided in this section. You will find the full text specifying the ORBIT standard in the `SPECIFICATION.rst`_ file.
+Only a basic overview of the specification is provided in this section. You will find the full text specifying the ORBIT standard in the `SPECIFICATION <SPECIFICATION.rst>`_ file.
 
 **FIXME: Finish this section**
 
