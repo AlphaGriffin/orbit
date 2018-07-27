@@ -32,7 +32,6 @@ help:
 	@echo "  all            to make all common tasks: python, docs"
 	@echo "  clean          to clean all common tasks: python_clean, docs_clean"
 	@echo ""
-	@echo "  run            run the application in-place"
 	@echo "  install        to install what has been built to the system (first try make all)"
 	@echo ""
 	@echo "  python         to build Python code"
@@ -62,16 +61,16 @@ python_clean:
 	rm -rf build
 	rm -rf *.egg-info
 	find . -type d -name __pycache__ | xargs -r rm -r
+	find . -type f -name "*.pyc" | xargs -r rm
 
-
-run:
-	./orbit
 
 install:
 	./setup.py install
 	if [ -d "doc/man" ]; then \
-		install -d /usr/local/share/man/man1; \
-		cp -r doc/man/* /usr/local/share/man/man1; \
+		install -d /usr/local/share/man/man3; \
+		cp -r doc/man/*.3 /usr/local/share/man/man3/; \
+		install -d /usr/local/share/man/man5; \
+		cp -r doc/man/*.5 /usr/local/share/man/man5/; \
 	fi
 
 

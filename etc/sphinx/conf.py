@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-# Copyright (C) 2017 Alpha Griffin
+# Copyright (C) 2017-2018 Alpha Griffin
 # @%@~LICENSE~@%@
 #
 # Adapted by the file that was auto-generated from sphinx-quickstart
@@ -30,7 +30,7 @@ import sphinx_rtd_theme
 sys.path.insert(0, os.path.abspath('../../'))
 
 # get the project details from the setup.py script
-from setup import NS, NAME, DESC, COPY, AUTHOR, findversion
+from setup import NS, NAME, COMMAND, DESC, COPY, AUTHOR, findversion
 
 
 # -- General configuration ------------------------------------------------
@@ -75,7 +75,7 @@ author = AUTHOR
 # built documents.
 #
 # The short X.Y version.
-version = findversion('../../' + NS, NAME)
+version = findversion(NS, NAME, up=2)
 # The full version, including alpha/beta/rc tags.
 release = version
 
@@ -251,7 +251,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-  (master_doc, NAME + '.tex', NAME + 'API Documentation',
+  (master_doc, NAME + '.tex', NS + '.' + NAME + ' API Documentation',
    AUTHOR, 'manual'),
 ]
 
@@ -281,8 +281,10 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, NAME, NAME + 'API Documentation',
-     [author], 1)
+    (master_doc, COMMAND, 'Specification for ' + DESC,
+     [author], 5),
+    (master_doc, NS + '.' + NAME, 'API Documentation',
+     [author], 3)
 ]
 
 # If true, show URL addresses after external links.
@@ -295,7 +297,7 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  (master_doc, NAME, NAME + 'API Documentation',
+  (master_doc, NAME, NS + '.' + NAME + ' API Documentation',
    author, NAME, DESC,
    'Miscellaneous'),
 ]

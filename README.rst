@@ -1,14 +1,16 @@
 ============================================
-ORBIT - Op_Return Bitcoin Implemented Tokens
+ORBIT - Op_Return Bitcoin-Implemented Tokens
 ============================================
 
 **A token standard specification and API for Bitcoin Cash**
 
-The official website for ORBIT is http://orbit.alphagriffin.com.
+The official website for ORBIT is http://orbit.cash.
 
 .. contents:: Table of Contents
 .. toctree::
    API Documentation <api/modules>
+
+*"Orbit the moon"*
 
 
 Introduction
@@ -19,8 +21,19 @@ ORBIT is a specification for simple, fungible tokens implemented by utilizing OP
 ORBIT is open source and licensed under the MIT license. See the `LICENSE <LICENSE>`_ file for more details.
 
 
-Specification Overview
-----------------------
+The ORBIT Ecosystem
+~~~~~~~~~~~~~~~~~~~
+
+The following projects, when used in conjunction with the ORBIT API, complete a full ecosystem for tokens on Bitcoin Cash using ORBIT:
+
+- ORBIT Node: https://github.com/AlphaGriffin/orbit-node
+- ORBIT Command-Line Interface: https://github.com/AlphaGriffin/orbit-cli
+- ORBIT Qt Wallet: https://github.com/AlphaGriffin/orbit-wallet
+- ORBIT Web: https://github.com/AlphaGriffin/orbit-web
+
+
+Specification
+-------------
 
 This repository (https://github.com/AlphaGriffin/orbit) defines the official and complete specification for ORBIT. 
 
@@ -31,14 +44,30 @@ Only a basic overview of the specification is provided in this section. You will
 **FIXME: Finish this section**
 
 
-API
----
+Contributing
+~~~~~~~~~~~~
+
+Your help is appreciated! Alpha Griffin is a small team focused on developing new technology projects. If you have questions or comments or would like to contribute to the ORBIT specification or ecosystem in any way, please feel free to contact us. You may submit issues or pull requests directly on GitHub or communicate with the team members at the following locations:
+
+- https://gitter.im/AlphaGriffin
+- https://alphagriffintrade.slack.com
+
+
+Python API
+----------
 
 This repository also provides a simple Python 3 API for transacting with and retrieving information about any ORBIT-compliant token on Bitcoin Cash.
 
 
+Dependencies
+~~~~~~~~~~~~
+
+- Python 3
+- BitCash >= 0.5.2.3: https://github.com/sporestack/bitcash
+
+
 Build Overview
---------------
+~~~~~~~~~~~~~~
 
 Both a Makefile and setup.py are provided and used. The setup.py uses Python's standard setuptools package and you can call this script directly to do the basic Python tasks such as creating a wheel, etc.
 
@@ -67,7 +96,7 @@ To clean up all the common generated files from your project folder::
 
 
 Installing
-----------
+~~~~~~~~~~
 
 To install this project to the local system::
 
@@ -77,9 +106,9 @@ Note that you may need superuser permissions to perform the above step.
 
 
 Using
------
+~~~~~
 
-The **orbit** module does nothing useful and is for example purposes only, but you can import it to verify correct installation.
+The **orbit** module is an API that you can import and use in any Python 3 project.
 
 If you have already installed the project to the system then it's as simple as::
     
