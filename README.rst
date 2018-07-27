@@ -63,7 +63,7 @@ Dependencies
 ~~~~~~~~~~~~
 
 - Python 3
-- BitCash >= 0.5.2.3: https://github.com/sporestack/bitcash
+- rfc3986 (`pip install rfc3986`)
 
 
 Build Overview
