@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 #
 # Copyright (C) 2017-2018 Alpha Griffin
 # @%@~LICENSE~@%@
@@ -30,8 +30,7 @@ NS      = 'ag'                          # namespace / meta-package folder
 NAME    = 'orbit'                       # should match source package name in NS folder
 COMMAND = 'ORBIT'                       # command name may be different than package name
 REQUIRE = [                             # package dependencies
-            'rfc3986',                      # for URI validation
-            'sphinx_rtd_theme'              # for building documentation
+            'rfc3986'                       # for URI validation
           ]
 
 DESC    = 'Op_Return Bitcoin-Implemented Tokens'

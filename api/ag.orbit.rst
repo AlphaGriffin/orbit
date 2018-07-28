@@ -1,6 +1,13 @@
 ag\.orbit package
 =================
 
+Subpackages
+-----------
+
+.. toctree::
+
+    ag.orbit.ops
+
 Module contents
 ---------------
 

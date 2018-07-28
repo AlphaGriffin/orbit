@@ -7,8 +7,6 @@ ORBIT - Op_Return Bitcoin-Implemented Tokens
 The official website for ORBIT is http://orbit.cash.
 
 .. contents:: Table of Contents
-.. toctree::
-   API Documentation <api/modules>
 
 *"Orbit the moon"*
 
@@ -64,6 +62,7 @@ Dependencies
 
 - Python 3
 - rfc3986 (`pip install rfc3986`)
+- *For building documentation (optional):* sphinx and sphinx_rtd_theme (`pip install sphinx sphinx_rtd_theme`)
 
 
 Build Overview
@@ -119,4 +118,11 @@ If you have not installed the project system-wide or you have some changes to tr
     import sys, os
     sys.path.insert(0, os.path.abspath('/path/to/orbit'))
     import ag.orbit
+
+
+API Documentation
+-----------------
+
+.. toctree::
+   API Documentation <api/modules>
 

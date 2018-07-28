@@ -1,9 +1,7 @@
-# Copyright (C) 2017 Alpha Griffin
+# Copyright (C) 2017-2018 Alpha Griffin
 # @%@~LICENSE~@%@
 
 """Alpha Griffin
-
-This package-init script currently simply handles namespace sharing.
 
 .. module:: ag
    :synopsis: Alpha Griffin Namespace
