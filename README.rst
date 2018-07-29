@@ -62,6 +62,7 @@ Dependencies
 
 - Python 3
 - rfc3986 (`pip install rfc3986`)
+- BitCash: https://github.com/sporestack/bitcash (`pip install bitcash`)
 - *For building documentation (optional):* sphinx and sphinx_rtd_theme (`pip install sphinx sphinx_rtd_theme`)
 
 

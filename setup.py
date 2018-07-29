@@ -30,7 +30,8 @@ NS      = 'ag'                          # namespace / meta-package folder
 NAME    = 'orbit'                       # should match source package name in NS folder
 COMMAND = 'ORBIT'                       # command name may be different than package name
 REQUIRE = [                             # package dependencies
-            'rfc3986'                       # for URI validation
+            'rfc3986',                      # for URI validation
+            'bitcash'
           ]
 
 DESC    = 'Op_Return Bitcoin-Implemented Tokens'
