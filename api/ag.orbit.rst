@@ -35,14 +35,6 @@ ag\.orbit\.encryption module
     :undoc-members:
     :show-inheritance:
 
-ag\.orbit\.network module
--------------------------
-
-.. automodule:: ag.orbit.network
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 ag\.orbit\.wallet module
 ------------------------
 

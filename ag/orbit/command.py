@@ -3,8 +3,18 @@
 
 '''Helpers for command-line interfaces'''
 
-from sys import exit
+from contextlib import suppress
+from sys import argv, exit
 
+
+def main(run):
+    with suppress(KeyboardInterrupt):
+        try:
+            run(argv[1:] if len(argv) > 1 else None)
+
+        except (ValueError, TypeError) as e:
+            print()
+            print("{}: {}".format(argv[0], e))
 
 def invoke(call, cmd, exit_val, run, args, args_min=0, args_max=0, pass_single=False, optional=False):
     if optional and args is None:
