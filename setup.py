@@ -31,7 +31,7 @@ NAME    = 'orbit'                       # should match source package name in NS
 COMMAND = 'ORBIT'                       # command name may be different than package name
 REQUIRE = [                             # package dependencies
             'rfc3986',                      # for URI validation
-            'bitcash'
+            'bitcash'                       # also pulls in cashaddress, which we use directly
           ]
 
 DESC    = 'Op_Return Bitcoin-Implemented Tokens'

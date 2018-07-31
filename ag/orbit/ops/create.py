@@ -43,6 +43,9 @@ class Create(Abstract):
         return self.to_string(indent=indent, supply=self.supply, decimals=self.decimals, normalized=normalized,
                 symbol=self.symbol, name=self.name, main_uri=self.main_uri, image_uri=self.image_uri)
 
+    def admin(self):
+        return True
+
     def prepare(self):
         message = (self.supply.to_bytes(self.BYTES_SUPPLY, self.ENDIAN) +
                 self.decimals.to_bytes(self.BYTES_DECIMALS, self.ENDIAN) +

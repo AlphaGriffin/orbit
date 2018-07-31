@@ -91,7 +91,10 @@ def access(wpath, get_password=None):
         key = decrypt(data, password.encode('utf-8'))
 
         if not key.startswith(API.PREAMBLE):
-            raise ValueError("Password is not correct")
+            if key.startswith(b'\xA4\x20'): # legacy
+                raise ValueError("WARNING: This legacy wallet must be upgraded before it can be used")
+            else:
+                raise ValueError("Password is not correct")
 
         key = key[len(API.PREAMBLE):]
 

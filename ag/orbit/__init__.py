@@ -15,7 +15,12 @@ from .__version__ import __version__
 print ("ORBIT API version %s" % (__version__))
 
 from .ops import Abstract
+#from .ops.address import Address
 from .ops.create import Create
+
+from cashaddress.convert import Address
+
+import math
 
 
 class API:
@@ -56,28 +61,54 @@ class API:
                 return '{}'.format(self.major)
 
     version = Version(__version__)
-    genesis = 540155 # block height containing the first compatible ORBIT transaction
+    #genesis = 540155 # block height containing the first compatible ORBIT transaction
+    genesis = 541337 # block height containing the first compatible ORBIT transaction
 
-    PREAMBLE = b'\xA4\x20'
+    # WARNING: preamble is also used in wallet decryption verification!
+    PREAMBLE = b'\xA4\x20\x19\x81'
+
     VERSION = version.encoded
 
-    OP_NULL = b'\x00'
+    # required operation, designates the token and the user (signer)
+    #OP_ADDRESS = b'\x00'
 
-    OP_CREATE = b'\x01'
-    #OP_DESTROY = b'\x02'
-    #OP_TRANSFER = b'\x03'
-    #OP_ADVERTISE = b'\x04'
-    #OP_SUBSCRIBE = b'\x05'
-    #OP_DISPENSE_CLOSE = b'\x06'
+    # admin-only main operations
+    OP_CREATE = b'\xA1'
+    #OP_DESTROY = b'\xA2'
+    #OP_ADVERTISE = b'\xA4'
+    #OP_SUBSCRIBE = b'\xA5'
+    #OP_DISPENSE_CLOSE = b'\xA6'
 
-    #OP_ALTER_SYMBOL = b'\xA0'
-    #OP_ALTER_NAME = b'\xA1'
-    #OP_ALTER_WEBSITE = b'\xA2'
-    #OP_ALTER_IMAGE = b'\xA3'
+    # admin-only edit (alter) operations
+    #OP_ALTER_SYMBOL = b'\xE0'
+    #OP_ALTER_NAME = b'\xE1'
+    #OP_ALTER_WEBSITE = b'\xE2'
+    #OP_ALTER_IMAGE = b'\xE3'
 
-    OP_RESERVED = 'b\xFF'
+    # general operations (user or admin)
+    #OP_TRANSFER = b'\x10'
 
-    def parse(self, data):
+    # reserved operations
+    OP_RESERVED_BEGIN = 'b\xF0'
+    OP_RESERVED_END = 'b\xFF'
+
+    def parse(self, data, combined=False):
+        data = self._parse1(data)
+
+        if not data:
+            return None
+
+        if len(data) < 2:
+            raise ValueError('Not enough data for a proper ORBIT transaction')
+
+        if not combined and int.from_bytes(data[0:1], 'big') != 0:
+            raise ValueError('Multi-return transaction indicated and combined=False; ' +
+                    'combine the data segments first or use parse_all() instead')
+        data = data[1:]
+
+        return self._parse2(data)
+
+    def _parse1(self, data):
         if not data.startswith(self.PREAMBLE):
             return None
         data = data[len(self.PREAMBLE):]
@@ -86,29 +117,133 @@ class API:
             raise ValueError('Not a supported ORBIT version')
         data = data[len(self.VERSION):]
 
-        if data.startswith(self.OP_NULL):
-            raise ValueError('The NULL operation is ignored')
+        return data
 
-        elif data.startswith(self.OP_CREATE):
-            return Create.parse(data[len(self.OP_CREATE):])
+    def _parse2(self, data):
+        #if data.startswith(self.OP_ADDRESS):
+        #    return Address.parse(data[len(self.OP_ADDRESS):])
 
-        elif data.startswith(self.OP_RESERVED):
-            raise ValueError('The RESERVED operation may not be used')
+        # first read token address
+
+        if len(data) < 1:
+            raise ValueError('Not enough data reading token address version')
+
+        addr_ver = int.from_bytes(data[0:1], 'big')
+        data = data[1:]
+
+        if len(data) < 1:
+            raise ValueError('Not enough data reading token address length')
+
+        addr_len = int.from_bytes(data[0:1], 'big')
+        data = data[1:]
+
+        if len(data) < addr_len:
+            raise ValueError('Not enough data reading token address')
+
+        address = Address(addr_ver, list(data[0:addr_len])).cash_address()
+        data = data[addr_len:]
+
+        # next read operation
+
+        if data.startswith(self.OP_CREATE):
+            op = Create.parse(data[len(self.OP_CREATE):])
 
         else:
             raise ValueError('Not a supported ORBIT operation')
 
-    def prepare(self, op):
+        return (address, op)
+
+    '''
+    def parse_all(self, vouts):
+        continues = 0
+        orbiting = None
+        ops = []
+
+        for vout in vouts:
+            asmhex = vout['scriptPubKey']['hex']
+
+            if not asmhex.startswith('6a'): # OP_RETURN
+                if orbiting:
+                    raise ValueError('Continuation tx requires OP_RETURN to follow')
+                else:
+                    continue
+
+            data = bytearray.fromhex(asmhex[4:]) # we skip the next byte too)
+
+            if orbiting:
+                orbiting += data
+                --continues
+
+            else:
+                data = self._parse1(data)
+
+                if not data:
+                    continue
+
+                if len(data) < 2:
+                    raise ValueError('Not enough data for a proper ORBIT transaction')
+
+                continues = int.from_bytes(data[0:1], 'big')
+                data = data[1:]
+                orbiting = data
+
+            if orbiting and continues < 1:
+                ops.append(self._parse2(orbiting))
+                orbiting = None
+
+        return ops
+    '''
+
+    def prepare(self, address, op, limit=0):
         if not isinstance(op, Abstract):
             raise ValueError('Operation must inherit the Abstract class: {}', type(op))
 
-        message = self.PREAMBLE + self.VERSION
+        begin = self.PREAMBLE + self.VERSION
+
+        address = Address.from_string(address)
+        addr_ver = Address._address_type('cash', address.version)[1]
+
+        data = addr_ver.to_bytes(1, 'big')
+        data += len(address.payload).to_bytes(1, 'big')
+        data += bytes(address.payload)
+
+        #if isinstance(op, Address):
+        #    data = self.OP_ADDRESS
 
         if isinstance(op, Create):
-            message += self.OP_CREATE
+            data += self.OP_CREATE
+
         else:
             raise ValueError('Unsupported operation type: {}', type(op))
 
-        message += op.prepare()
-        return message
+        data += op.prepare()
+
+        if limit > 0:
+            messages = []
+
+            header = len(begin) + 1
+            size = header + len(data)
+
+            if size > limit:
+                continues = size // limit
+                if size % limit == 0:
+                    continues -= 1
+
+                messages.append(begin + continues.to_bytes(1, 'big') + data[:limit-header])
+                data = data[limit-header:]
+
+                while len(data) > limit:
+                    messages.append(data[:limit])
+                    data = data[limit:]
+
+                if len(data) > 0:
+                    messages.append(data)
+
+            else:
+                messages.append(begin + (0).to_bytes(1, 'big') + data)
+
+            return messages
+
+        else:
+            return begin + (0).to_bytes(1, 'big') + data
 

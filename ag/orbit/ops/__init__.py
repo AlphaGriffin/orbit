@@ -19,10 +19,6 @@ class Abstract(ABC):
     src_uri_validator_1 = Validator().require_presence_of('scheme', 'host', 'path').allow_schemes('http', 'https')
     src_uri_validator_2 = Validator().require_presence_of('scheme', 'path').allow_schemes('data')
 
-    @abstractmethod
-    def prepare(self):
-        pass
-
     def __eq__(self, other):
         if isinstance(other, self.__class__):
             return self.__dict__ == other.__dict__
@@ -31,6 +27,14 @@ class Abstract(ABC):
 
     def __ne__(self, other):
         return not self.__eq__(other)
+
+    @abstractmethod
+    def admin(self):
+        pass
+
+    @abstractmethod
+    def prepare(self):
+        pass
 
     @classmethod
     def read_text(cls, data, encoding=None):
