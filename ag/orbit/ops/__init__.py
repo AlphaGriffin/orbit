@@ -4,12 +4,15 @@
 from abc import ABC, abstractmethod
 from decimal import Decimal
 
-import unicodedata
+from cashaddress.convert import Address, is_valid
 from rfc3986 import uri_reference
 from rfc3986.validators import Validator
 
+import unicodedata
+
 
 class Abstract(ABC):
+
     SEPARATOR = b'\xFF' # this byte should not exist anywhere in any UTF-8 or our accepted ASCII subset
     ENDIAN = 'big'
     ENCODING = 'utf-8'
@@ -134,4 +137,36 @@ class Abstract(ABC):
     def validate_range(cls, name, value, minval, maxval): # minval and maxval are inclusive
         if value < minval or value > maxval:
             raise ValueError('{} is out of range: supplied={}, min={}, max={}'.format(name, value, minval, maxval))
+
+    @classmethod
+    def validate_address(cls, name, address):
+        if not is_valid(address):
+            raise ValueError('{} is not a valid bitcoincash address'.format(name))
+
+    @classmethod
+    def serialize_address(cls, address):
+        address = Address.from_string(address)
+        addr_ver = Address._address_type('cash', address.version)[1]
+
+        data = addr_ver.to_bytes(1, 'big')
+        data += len(address.payload).to_bytes(1, 'big')
+        data += bytes(address.payload)
+
+        return data
+
+    @classmethod
+    def deserialize_address(cls, data):
+        if len(data) < 2:
+            raise ValueError('Not enough data reading address version/length')
+
+        addr_ver = int.from_bytes(data[0:1], 'big')
+        addr_len = int.from_bytes(data[1:2], 'big')
+
+        if len(data) < addr_len + 2:
+            raise ValueError('Not enough data reading address')
+
+        address = Address(addr_ver, list(data[2:addr_len+2])).cash_address()
+        data = data[2+addr_len:]
+
+        return (address, data)
 

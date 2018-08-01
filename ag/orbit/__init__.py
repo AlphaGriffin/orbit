@@ -17,8 +17,7 @@ print ("ORBIT API version %s" % (__version__))
 from .ops import Abstract
 #from .ops.address import Address
 from .ops.create import Create
-
-from cashaddress.convert import Address
+from .ops.transfer import Transfer
 
 import math
 
@@ -75,9 +74,8 @@ class API:
     # admin-only main operations
     OP_CREATE = b'\xA1'
     #OP_DESTROY = b'\xA2'
-    #OP_ADVERTISE = b'\xA4'
-    #OP_SUBSCRIBE = b'\xA5'
-    #OP_DISPENSE_CLOSE = b'\xA6'
+    #OP_ADVERTISE = b'\xA3'
+    #OP_DISPENSE_CLOSE = b'\xA4'
 
     # admin-only edit (alter) operations
     #OP_ALTER_SYMBOL = b'\xE0'
@@ -86,9 +84,12 @@ class API:
     #OP_ALTER_IMAGE = b'\xE3'
 
     # general operations (user or admin)
-    #OP_TRANSFER = b'\x10'
+    OP_TRANSFER = b'\x10'
 
-    # reserved operations
+    # user-only operations
+    #OP_SUBSCRIBE = b'\xB0'
+
+    # reserved for future use
     OP_RESERVED_BEGIN = 'b\xF0'
     OP_RESERVED_END = 'b\xFF'
 
@@ -123,30 +124,13 @@ class API:
         #if data.startswith(self.OP_ADDRESS):
         #    return Address.parse(data[len(self.OP_ADDRESS):])
 
-        # first read token address
-
-        if len(data) < 1:
-            raise ValueError('Not enough data reading token address version')
-
-        addr_ver = int.from_bytes(data[0:1], 'big')
-        data = data[1:]
-
-        if len(data) < 1:
-            raise ValueError('Not enough data reading token address length')
-
-        addr_len = int.from_bytes(data[0:1], 'big')
-        data = data[1:]
-
-        if len(data) < addr_len:
-            raise ValueError('Not enough data reading token address')
-
-        address = Address(addr_ver, list(data[0:addr_len])).cash_address()
-        data = data[addr_len:]
-
-        # next read operation
+        address, data = Abstract.deserialize_address(data)
 
         if data.startswith(self.OP_CREATE):
             op = Create.parse(data[len(self.OP_CREATE):])
+
+        elif data.startswith(self.OP_TRANSFER):
+            op = Transfer.parse(data[len(self.OP_TRANSFER):])
 
         else:
             raise ValueError('Not a supported ORBIT operation')
@@ -199,13 +183,7 @@ class API:
             raise ValueError('Operation must inherit the Abstract class: {}', type(op))
 
         begin = self.PREAMBLE + self.VERSION
-
-        address = Address.from_string(address)
-        addr_ver = Address._address_type('cash', address.version)[1]
-
-        data = addr_ver.to_bytes(1, 'big')
-        data += len(address.payload).to_bytes(1, 'big')
-        data += bytes(address.payload)
+        data = Abstract.serialize_address(address)
 
         #if isinstance(op, Address):
         #    data = self.OP_ADDRESS
@@ -213,12 +191,15 @@ class API:
         if isinstance(op, Create):
             data += self.OP_CREATE
 
+        elif isinstance(op, Transfer):
+            data += self.OP_TRANSFER
+
         else:
             raise ValueError('Unsupported operation type: {}', type(op))
 
         data += op.prepare()
 
-        if limit > 0:
+        if limit > 0: # this is not actually used unless and until multiple OP_RETURN outputs are supported by BCH nodes
             messages = []
 
             header = len(begin) + 1

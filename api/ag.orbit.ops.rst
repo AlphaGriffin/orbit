@@ -12,6 +12,14 @@ ag\.orbit\.ops\.create module
     :undoc-members:
     :show-inheritance:
 
+ag\.orbit\.ops\.transfer module
+-------------------------------
+
+.. automodule:: ag.orbit.ops.transfer
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 
 Module contents
 ---------------

@@ -1,6 +1,8 @@
 Copyright (C) 2018 Alpha Griffin
 @%@~LICENSE~@%@
 
+saw_080118_1 - Add token transfer operation.
+
 saw_073118_1 - New, longer preamble and updated opcodes.
 
 saw_072818_2 - Add another helper function to ag.orbit.command.
