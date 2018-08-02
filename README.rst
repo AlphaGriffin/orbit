@@ -1,18 +1,19 @@
-============================================
+############################################
 ORBIT - Op_Return Bitcoin-Implemented Tokens
-============================================
+############################################
 
 **A token standard specification and API for Bitcoin Cash**
 
 The official website for ORBIT is http://orbit.cash.
 
 .. contents:: Table of Contents
+   :depth: 2
+   :local:
 
-*"Orbit the moon"*
 
-
+************
 Introduction
-------------
+************
 
 ORBIT is a specification for simple, fungible tokens implemented by utilizing OP_RETURN for the storage of token events on the Bitcoin Cash blockchain. No changes to the Bitcoin Cash protocol or nodes are required. However, wallets may wish to incorporate this token standard in order to allow the user to easily take account of and interact with tokens that adhere to this ORBIT standard.
 
@@ -20,7 +21,7 @@ ORBIT is open source and licensed under the MIT license. See the `LICENSE <LICEN
 
 
 The ORBIT Ecosystem
-~~~~~~~~~~~~~~~~~~~
+===================
 
 The following projects, when used in conjunction with the ORBIT API, complete a full ecosystem for tokens on Bitcoin Cash using ORBIT:
 
@@ -30,20 +31,22 @@ The following projects, when used in conjunction with the ORBIT API, complete a 
 - ORBIT Web: https://github.com/AlphaGriffin/orbit-web
 
 
+*************
 Specification
--------------
+*************
 
 This repository (https://github.com/AlphaGriffin/orbit) defines the official and complete specification for ORBIT. 
 
 *The current specification version is: 0 (beta testing). Version 0 is reserved and should be used for all testing.*
 
-Only a basic overview of the specification is provided in this section. You will find the full text specifying the ORBIT standard in the `SPECIFICATION <SPECIFICATION.rst>`_ file.
+You will find the full text specifying the ORBIT standard in the `SPECIFICATION <SPECIFICATION.rst>`_ file (included here in generated documentation).
 
-**FIXME: Finish this section**
+.. include:: SPECIFICATION.rst
 
 
+************
 Contributing
-~~~~~~~~~~~~
+************
 
 Your help is appreciated! Alpha Griffin is a small team focused on developing new technology projects. If you have questions or comments or would like to contribute to the ORBIT specification or ecosystem in any way, please feel free to contact us. You may submit issues or pull requests directly on GitHub or communicate with the team members at the following locations:
 
@@ -51,14 +54,18 @@ Your help is appreciated! Alpha Griffin is a small team focused on developing ne
 - https://alphagriffintrade.slack.com
 
 
-Python API
-----------
+**************
+Python Library
+**************
 
 This repository also provides a simple Python 3 API for transacting with and retrieving information about any ORBIT-compliant token on Bitcoin Cash.
 
+.. toctree::
+   API Documentation <api/modules>
+
 
 Dependencies
-~~~~~~~~~~~~
+============
 
 - Python 3
 - rfc3986 (`pip install rfc3986`)
@@ -67,7 +74,7 @@ Dependencies
 
 
 Build Overview
-~~~~~~~~~~~~~~
+==============
 
 Both a Makefile and setup.py are provided and used. The setup.py uses Python's standard setuptools package and you can call this script directly to do the basic Python tasks such as creating a wheel, etc.
 
@@ -96,7 +103,7 @@ To clean up all the common generated files from your project folder::
 
 
 Installing
-~~~~~~~~~~
+==========
 
 To install this project to the local system::
 
@@ -106,7 +113,7 @@ Note that you may need superuser permissions to perform the above step.
 
 
 Using
-~~~~~
+=====
 
 The **orbit** module is an API that you can import and use in any Python 3 project.
 
@@ -121,9 +128,15 @@ If you have not installed the project system-wide or you have some changes to tr
     import ag.orbit
 
 
-API Documentation
------------------
+*******
+History
+*******
 
-.. toctree::
-   API Documentation <api/modules>
+All changes are tracked in the `CHANGELOG <CHANGELOG>`_ file.
+
+.. include:: CHANGELOG
+
+----
+
+*"Orbit the moon"*
 

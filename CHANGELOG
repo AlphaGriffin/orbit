@@ -1,6 +1,8 @@
 Copyright (C) 2018 Alpha Griffin
 @%@~LICENSE~@%@
 
+saw_080218_1 - Add advertise, register, and unregister operations. Improve documentation.
+
 saw_080118_1 - Add token transfer operation.
 
 saw_073118_1 - New, longer preamble and updated opcodes.

@@ -18,13 +18,27 @@ from .ops import Abstract
 #from .ops.address import Address
 from .ops.create import Create
 from .ops.transfer import Transfer
+from .ops.advertise import Advertise
+from .ops.register import Register
+from .ops.unregister import Unregister
 
 import math
 
 
 class API:
+    """Main API for ORBIT events.
+    """
 
     class Version:
+        """Simple version parser.
+
+        Separates a version string into major and minor components,
+        and provides an encoded representation (major component only).
+
+        :param version: Version string to parse.
+        :type version: ``str``
+        :raises ValueError: If the version string is not valid.
+        """
         def __init__(self, version):
             dot = version.find('.')
             if dot < 0:
@@ -53,14 +67,13 @@ class API:
             self.minor = minor
             self.encoded = (chr(major)).encode('ascii')
 
-        def __repr__(self):
+        def __str__(self):
             if self.minor is not None:
                 return '{}.{}'.format(self.major, self.minor)
             else:
                 return '{}'.format(self.major)
 
     version = Version(__version__)
-    #genesis = 540155 # block height containing the first compatible ORBIT transaction
     genesis = 541337 # block height containing the first compatible ORBIT transaction
 
     # WARNING: preamble is also used in wallet decryption verification!
@@ -73,9 +86,8 @@ class API:
 
     # admin-only main operations
     OP_CREATE = b'\xA1'
-    #OP_DESTROY = b'\xA2'
-    #OP_ADVERTISE = b'\xA3'
-    #OP_DISPENSE_CLOSE = b'\xA4'
+    OP_ADVERTISE = b'\xAA'
+    #OP_ADVERTISE_CLOSE = b'\xAB'
 
     # admin-only edit (alter) operations
     #OP_ALTER_SYMBOL = b'\xE0'
@@ -85,15 +97,98 @@ class API:
 
     # general operations (user or admin)
     OP_TRANSFER = b'\x10'
+    #OP_DESTROY = b'\x11' # burn tokens
 
     # user-only operations
-    #OP_SUBSCRIBE = b'\xB0'
+    OP_REGISTER = b'\xB0'
+    OP_UNREGISTER = b'\xB1'
 
     # reserved for future use
     OP_RESERVED_BEGIN = 'b\xF0'
     OP_RESERVED_END = 'b\xFF'
 
+    def prepare(self, address, op, limit=0):
+        """Prepare a serialized byte stream to be stored as OP_RETURN data.
+
+        :param address: Bitcoin cash address for the token.
+        :type address: ``str``
+        :param op: The operation to serialize.
+        :type op: ``Abstract``
+        :returns: Serialized representation of the operation.
+        :rtype: ``bytes``
+        :raises ValueError: If there is a problem serializing the operation.
+        """
+        if not isinstance(op, Abstract):
+            raise ValueError('Operation must inherit the Abstract class: {}', type(op))
+
+        op.validate()
+
+        begin = self.PREAMBLE + self.VERSION
+        data = Abstract.serialize_address(address)
+
+        #if isinstance(op, Address):
+        #    data = self.OP_ADDRESS
+
+        if isinstance(op, Create):
+            data += self.OP_CREATE
+
+        elif isinstance(op, Transfer):
+            data += self.OP_TRANSFER
+
+        elif isinstance(op, Advertise):
+            data += self.OP_ADVERTISE
+
+        elif isinstance(op, Register):
+            data += self.OP_REGISTER
+
+        elif isinstance(op, Unregister):
+            data += self.OP_UNREGISTER
+
+        else:
+            raise ValueError('Unsupported operation type: {}', type(op))
+
+        opdata = op.prepare()
+        if opdata:
+            data += opdata
+
+        if limit > 0: # this is not actually used unless and until multiple OP_RETURN outputs are supported by BCH nodes
+            messages = []
+
+            header = len(begin) + 1
+            size = header + len(data)
+
+            if size > limit:
+                continues = size // limit
+                if size % limit == 0:
+                    continues -= 1
+
+                messages.append(begin + continues.to_bytes(1, 'big') + data[:limit-header])
+                data = data[limit-header:]
+
+                while len(data) > limit:
+                    messages.append(data[:limit])
+                    data = data[limit:]
+
+                if len(data) > 0:
+                    messages.append(data)
+
+            else:
+                messages.append(begin + (0).to_bytes(1, 'big') + data)
+
+            return messages
+
+        else:
+            return begin + (0).to_bytes(1, 'big') + data
+
     def parse(self, data, combined=False):
+        """Parse serialized bytes retrieved from OP_RETURN data.
+
+        :param data: The serialized bytes to parse.
+        :type data: ``bytes``
+        :returns: An operation representing the data.
+        :rtype: ``Abstract``
+        :raises ValueError: If the byte stream does not represent a valid operation.
+        """
         data = self._parse1(data)
 
         if not data:
@@ -132,9 +227,19 @@ class API:
         elif data.startswith(self.OP_TRANSFER):
             op = Transfer.parse(data[len(self.OP_TRANSFER):])
 
+        elif data.startswith(self.OP_ADVERTISE):
+            op = Advertise.parse(data[len(self.OP_ADVERTISE):])
+
+        elif data.startswith(self.OP_REGISTER):
+            op = Register.parse(data[len(self.OP_REGISTER):])
+
+        elif data.startswith(self.OP_UNREGISTER):
+            op = Unregister.parse(data[len(self.OP_UNREGISTER):])
+
         else:
             raise ValueError('Not a supported ORBIT operation')
 
+        op.validate()
         return (address, op)
 
     '''
@@ -177,54 +282,4 @@ class API:
 
         return ops
     '''
-
-    def prepare(self, address, op, limit=0):
-        if not isinstance(op, Abstract):
-            raise ValueError('Operation must inherit the Abstract class: {}', type(op))
-
-        begin = self.PREAMBLE + self.VERSION
-        data = Abstract.serialize_address(address)
-
-        #if isinstance(op, Address):
-        #    data = self.OP_ADDRESS
-
-        if isinstance(op, Create):
-            data += self.OP_CREATE
-
-        elif isinstance(op, Transfer):
-            data += self.OP_TRANSFER
-
-        else:
-            raise ValueError('Unsupported operation type: {}', type(op))
-
-        data += op.prepare()
-
-        if limit > 0: # this is not actually used unless and until multiple OP_RETURN outputs are supported by BCH nodes
-            messages = []
-
-            header = len(begin) + 1
-            size = header + len(data)
-
-            if size > limit:
-                continues = size // limit
-                if size % limit == 0:
-                    continues -= 1
-
-                messages.append(begin + continues.to_bytes(1, 'big') + data[:limit-header])
-                data = data[limit-header:]
-
-                while len(data) > limit:
-                    messages.append(data[:limit])
-                    data = data[limit:]
-
-                if len(data) > 0:
-                    messages.append(data)
-
-            else:
-                messages.append(begin + (0).to_bytes(1, 'big') + data)
-
-            return messages
-
-        else:
-            return begin + (0).to_bytes(1, 'big') + data
 

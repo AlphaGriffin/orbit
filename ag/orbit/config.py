@@ -1,6 +1,11 @@
 # Copyright (C) 2018 Alpha Griffin
 # @%@~LICENSE~@%@
 
+"""Set up some variables for access to configuration.
+
+A system-dependent user configuration directory is automatically created.
+"""
+
 #import ag.logging as log
 
 from os import makedirs, path

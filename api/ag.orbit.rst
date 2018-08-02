@@ -1,6 +1,11 @@
 ag\.orbit package
 =================
 
+.. automodule:: ag.orbit
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 Subpackages
 -----------
 
@@ -44,10 +49,3 @@ ag\.orbit\.wallet module
     :show-inheritance:
 
 
-Module contents
----------------
-
-.. automodule:: ag.orbit
-    :members:
-    :undoc-members:
-    :show-inheritance:

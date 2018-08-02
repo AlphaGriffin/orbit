@@ -40,11 +40,11 @@ def invoke(call, cmd, exit_val, run, args, args_min=0, args_max=0, pass_single=F
                 call, cmd, args_min, args_max))
             exit(exit_val)
 
-    try:
-        run(args[0] if pass_single else args)
+    #try:
+    run(args[0] if pass_single else args)
 
-    except (ValueError, TypeError) as e:
-        print()
-        print("{} {}: {}".format(call, cmd, e))
-        exit(exit_val)
+    #except (ValueError, TypeError) as e:
+    #    print()
+    #    print("{} {}: {}".format(call, cmd, e))
+    #    exit(exit_val)
 

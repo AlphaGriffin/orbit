@@ -15,28 +15,14 @@ class Create(Abstract):
     INVALID_TYPES_NAME = ['Zl', 'Zp', 'C'] # no line/paragraph separator or control codes
 
     def __init__(self, supply, decimals, symbol, name=None, main_uri=None, image_uri=None):
-        self.validate_range('Supply', supply, 1, 2**(8 * self.BYTES_SUPPLY) - 1)
         self.supply = supply
-
-        self.validate_range('Decimals', decimals, 0, 2**(8 * self.BYTES_DECIMALS) - 1)
         self.decimals = decimals
-
-        self.validate_range('Symbol length', len(symbol), 1, self.CHARS_MAX_SYMBOL)
-        if not self.is_safe_unicode(symbol, self.INVALID_TYPES_SYMBOL):
-            raise ValueError('Symbol has invalid characters')
         self.symbol = symbol
-
-        if name is not None and (len(name) < 1 or not self.is_safe_unicode(name, self.INVALID_TYPES_NAME)):
-            raise ValueError('Name is empty or has invalid characters')
         self.name = name
-
-        if main_uri is not None and (len(main_uri) < 1 or not self.is_link_uri(main_uri)):
-            raise ValueError('Main URI is not a valid link URI')
         self.main_uri = main_uri
-
-        if image_uri is not None and (len(image_uri) < 1 or not self.is_src_uri(image_uri)):
-            raise ValueError('Image URI is not a valid src URI')
         self.image_uri = image_uri
+
+        self.validate()
 
     def __str__(self, indent=None):
         normalized = Decimal(self.supply) / 10**self.decimals
@@ -44,7 +30,24 @@ class Create(Abstract):
                 symbol=self.symbol, name=self.name, main_uri=self.main_uri, image_uri=self.image_uri)
 
     def admin(self):
-        return True
+        return True # admin only
+
+    def validate(self):
+        self.validate_range_bytesize('Supply', self.supply, self.BYTES_SUPPLY, allow_zero=False)
+        self.validate_range_bytesize('Decimals', self.decimals, self.BYTES_DECIMALS)
+
+        self.validate_range('Symbol length', len(self.symbol), 1, self.CHARS_MAX_SYMBOL)
+        if not self.is_safe_unicode(self.symbol, self.INVALID_TYPES_SYMBOL):
+            raise ValueError('Symbol has invalid characters')
+
+        if self.name is not None and (len(self.name) < 1 or not self.is_safe_unicode(self.name, self.INVALID_TYPES_NAME)):
+            raise ValueError('Name is empty or has invalid characters')
+
+        if self.main_uri is not None and (len(self.main_uri) < 1 or not self.is_link_uri(self.main_uri)):
+            raise ValueError('Main URI is not a valid link URI')
+
+        if self.image_uri is not None and (len(self.image_uri) < 1 or not self.is_src_uri(self.image_uri)):
+            raise ValueError('Image URI is not a valid src URI')
 
     def prepare(self):
         message = (self.supply.to_bytes(self.BYTES_SUPPLY, self.ENDIAN) +
@@ -109,8 +112,8 @@ class Create(Abstract):
             raise ValueError('Not enough data while reading image URI')
         image_uri, count, done = cls.read_text(data, 'ascii')
 
-        if not done:
-            raise ValueError('Unexpected extra data after reading image URI')
+        #if not done:
+        #    raise ValueError('Unexpected extra data after reading image URI')
 
         return Create(supply, decimals, symbol, name, main_uri, image_uri)
 

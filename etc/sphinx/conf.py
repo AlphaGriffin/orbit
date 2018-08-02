@@ -46,7 +46,7 @@ extensions = [
     'sphinx.ext.intersphinx',
     'sphinx.ext.todo',
     'sphinx.ext.coverage',
-    'sphinx.ext.pngmath',
+    'sphinx.ext.imgmath',
     'sphinx.ext.ifconfig',
     'sphinx.ext.viewcode',
 ]
@@ -283,7 +283,7 @@ latex_documents = [
 man_pages = [
     (master_doc, COMMAND, 'Specification for ' + DESC,
      [author], 5),
-    (master_doc, NS + '.' + NAME, 'API Documentation',
+    ('api/modules', NS + '.' + NAME, 'API Documentation',
      [author], 3)
 ]
 

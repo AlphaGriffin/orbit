@@ -1,7 +1,7 @@
 # Copyright (C) 2018 Alpha Griffin
 # @%@~LICENSE~@%@
 
-from abc import ABC, abstractmethod
+from abc import ABC, abstractmethod, abstractclassmethod
 from decimal import Decimal
 
 from cashaddress.convert import Address, is_valid
@@ -12,6 +12,11 @@ import unicodedata
 
 
 class Abstract(ABC):
+    """Abstract base class for all ORBIT operations.
+
+    This class defines a some methods that subclasses are required to implement.
+    It also makes available a number of useful helper methods.
+    """
 
     SEPARATOR = b'\xFF' # this byte should not exist anywhere in any UTF-8 or our accepted ASCII subset
     ENDIAN = 'big'
@@ -23,21 +28,44 @@ class Abstract(ABC):
     src_uri_validator_2 = Validator().require_presence_of('scheme', 'path').allow_schemes('data')
 
     def __eq__(self, other):
-        if isinstance(other, self.__class__):
+        """Equality test.
+
+        Operations are considered equal if they are of the same type
+        and all their members are equal.
+        """
+
+        if isinstance(other, self.__class__) or isinstance(self, other.__class__):
             return self.__dict__ == other.__dict__
         else:
             return False
 
     def __ne__(self, other):
+        """Inequality test.
+
+        Simply returns the opposite of ``__eq__()``
+        """
+
         return not self.__eq__(other)
 
     @abstractmethod
+    def __str__(self):
+        raise NotImplementedError('__str__() must be implemented by subclass')
+
+    @abstractmethod
     def admin(self):
-        pass
+        raise NotImplementedError('admin() must be implemented by subclass')
+
+    @abstractmethod
+    def validate(self):
+        raise NotImplementedError('validate() must be implemented by subclass')
 
     @abstractmethod
     def prepare(self):
-        pass
+        raise NotImplementedError('prepare() must be implemented by subclass')
+
+    @abstractclassmethod
+    def parse(cls, data):
+        raise NotImplementedError('parse() must be implemented by subclass')
 
     @classmethod
     def read_text(cls, data, encoding=None):
@@ -134,14 +162,32 @@ class Abstract(ABC):
         return text
 
     @classmethod
-    def validate_range(cls, name, value, minval, maxval): # minval and maxval are inclusive
-        if value < minval or value > maxval:
-            raise ValueError('{} is out of range: supplied={}, min={}, max={}'.format(name, value, minval, maxval))
+    def validate_range(cls, name, value, minval, maxval, optional=False): # minval and maxval are inclusive
+        if not optional and value is not None:
+            if value < minval or value > maxval:
+                raise ValueError('{} is out of range: supplied={}, min={}, max={}'.format(name, value, minval, maxval))
+
+        return value
+
+    @classmethod
+    def validate_range_bytesize(cls, name, value, size, optional=False, allow_zero=True, signed=False):
+        if value == 0 and not allow_zero:
+            raise ValueError('{} may not be zero'.format(name))
+        if not optional and value is not None:
+            minval = 0 - 2**(8*size - 1)
+            maxval = 2**(8*size - 1) - 1
+            if value < minval or value > maxval:
+                raise ValueError('{} is out of range: supplied={}, min={}, max={}{}'.format(name, value, minval, maxval,
+                    ", zero is not allowed" if not allow_zero else ""))
+
+        return value
 
     @classmethod
     def validate_address(cls, name, address):
         if not is_valid(address):
             raise ValueError('{} is not a valid bitcoincash address'.format(name))
+
+        return address
 
     @classmethod
     def serialize_address(cls, address):
