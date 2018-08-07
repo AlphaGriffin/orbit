@@ -7,7 +7,7 @@
 
 # You can set these variables from the command line.
 SPHINXOPTS    = -c etc/sphinx
-SPHINXBUILD   = sphinx-build
+SPHINXBUILD   = python3 -m sphinx
 PAPER         =
 DOCDIR        = doc
 

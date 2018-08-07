@@ -134,8 +134,8 @@ html_theme = 'sphinx_rtd_theme'
 # further.  For a list of options available for each theme, see the
 # documentation.
 html_theme_options = {
-        #'canonical_url': 'http://doc.alphagriffin.com/' + NAME,
-        'analytics_id': 'UA-36092231-27',
+        'canonical_url': 'https://doc.orbit.cash/' + NAME,
+        'analytics_id': 'UA-36092231-29',
         'display_version': True,
         'sticky_navigation': True,
         'collapse_navigation': False,
