@@ -9,42 +9,18 @@ ag\.orbit\.ops package
 Submodules
 ----------
 
-ag\.orbit\.ops\.advertise module
---------------------------------
+ag\.orbit\.ops\.advertisement module
+------------------------------------
 
-.. automodule:: ag.orbit.ops.advertise
+.. automodule:: ag.orbit.ops.advertisement
     :members:
     :undoc-members:
     :show-inheritance:
 
-ag\.orbit\.ops\.create module
------------------------------
-
-.. automodule:: ag.orbit.ops.create
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-ag\.orbit\.ops\.register module
--------------------------------
-
-.. automodule:: ag.orbit.ops.register
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-ag\.orbit\.ops\.transfer module
--------------------------------
-
-.. automodule:: ag.orbit.ops.transfer
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-ag\.orbit\.ops\.unregister module
+ag\.orbit\.ops\.allocation module
 ---------------------------------
 
-.. automodule:: ag.orbit.ops.unregister
+.. automodule:: ag.orbit.ops.allocation
     :members:
     :undoc-members:
     :show-inheritance:

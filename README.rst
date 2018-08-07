@@ -2,13 +2,14 @@
 ORBIT - Op_Return Bitcoin-Implemented Tokens
 ############################################
 
-**A token standard specification and API for Bitcoin Cash**
+**Token standard specification and API for Bitcoin Cash**
 
 The official website for ORBIT is http://orbit.cash.
 
 .. contents:: Table of Contents
    :depth: 2
    :local:
+
 
 
 ************
@@ -31,6 +32,17 @@ The following projects, when used in conjunction with the ORBIT API, complete a 
 - ORBIT Web: https://github.com/AlphaGriffin/orbit-web
 
 
+
+********
+Features
+********
+
+- All operations possible with very low fees (usually under 1,000 satoshis)
+- Anybody can easily create and manage a new token
+- Easily start a crowd-sale or faucet
+
+
+
 *************
 Specification
 *************
@@ -44,6 +56,7 @@ You will find the full text specifying the ORBIT standard in the `SPECIFICATION 
 .. include:: SPECIFICATION.rst
 
 
+
 ************
 Contributing
 ************
@@ -52,6 +65,17 @@ Your help is appreciated! Alpha Griffin is a small team focused on developing ne
 
 - https://gitter.im/AlphaGriffin
 - https://alphagriffintrade.slack.com
+
+Have a suggestion or request? Let us know!
+
+
+To-Do List
+==========
+
+There are a number of tasks already identified on the `To-Do list <TODO>`_ that could use your help (included here in generated documentation).
+
+.. include:: TODO
+
 
 
 **************
@@ -68,9 +92,15 @@ Dependencies
 ============
 
 - Python 3
-- rfc3986 (`pip install rfc3986`)
-- BitCash: https://github.com/sporestack/bitcash (`pip install bitcash`)
-- *For building documentation (optional):* sphinx and sphinx_rtd_theme (`pip install sphinx sphinx_rtd_theme`)
+- rfc3986 (``pip install rfc3986``)
+- BitCash: https://github.com/sporestack/bitcash (``pip install bitcash``)
+- *For building documentation (optional):* Sphinx and sphinx_rtd_theme (``pip install sphinx sphinx_rtd_theme``)
+
+
+Quick Start
+===========
+
+**FIXME**
 
 
 Build Overview
@@ -126,6 +156,7 @@ If you have not installed the project system-wide or you have some changes to tr
     import sys, os
     sys.path.insert(0, os.path.abspath('/path/to/orbit'))
     import ag.orbit
+
 
 
 *******

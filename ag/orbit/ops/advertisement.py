@@ -62,12 +62,12 @@ class Advertise(Abstract):
         self.validate_range_bytesize('Ending block', self.block_end, self.BYTES_BLOCK,
                 optional=True, allow_zero=False)
         if self.block_begin:
-            self.validate_range('Ending block', self.block_deliver, self.block_begin + 1, None, optional=True)
+            self.validate_range('Ending block', self.block_deliver, self.block_begin, None, optional=True)
 
         self.validate_range_bytesize('Delivery block', self.block_deliver, self.BYTES_BLOCK,
                 optional=True, allow_zero=False)
         if self.block_begin:
-            self.validate_range('Delivery block', self.block_deliver, self.block_begin + 1, None, optional=True)
+            self.validate_range('Delivery block', self.block_deliver, self.block_begin, None, optional=True)
 
         if self.preregister == True:
             if not self.exchange_rate or not self.block_begin:
@@ -161,4 +161,107 @@ class Advertise(Abstract):
         data = data[1:]
 
         return Advertise(exchange_rate, units_avail, units_min, units_max, block_begin, block_end, block_deliver, preregister)
+
+
+class Cancel(Abstract):
+
+    BYTES_HASH_SIZE = 1
+
+    def __init__(self, txhash):
+        self.txhash = txhash
+
+        self.validate()
+
+    def __str__(self, indent=None):
+        return self.to_string(indent=inent, txhash=self.txhash)
+
+    def admin(self):
+        return True # admin only
+
+    def validate(self):
+        if not self.txhash:
+            raise ValueError("Transaction hash is required")
+
+    def prepare(self):
+        txhash = bytes(bytearray.fromhex(self.txhash))
+        message = len(txhash).to_bytes(self.BYTES_HASH_SIZE, self.ENDIAN)
+        message += txhash
+
+        return message
+
+    @classmethod
+    def parse(cls, data):
+        if len(data) < cls.BYTES_HASH_SIZE:
+            raise ValueError('Not enough data while reading tx hash size')
+        size = int.from_bytes(data[0:cls.BYTES_HASH_SIZE], cls.ENDIAN)
+        data = data[cls.BYTES_HASH_SIZE:]
+
+        if len(data) < size:
+            raise ValueError('Not enough data while reading tx hash')
+        txhash = data[0:size]
+        data = data[size:]
+
+        return Cancel(txhash)
+
+
+class Register(Abstract):
+
+    BYTES_UNITS = 8
+
+    def __init__(self, units_max=None):
+        self.units_max = units_max
+
+        self.validate()
+
+    def __str__(self, indent=None):
+        return self.to_string(indent=indent, units_max=self.units_max)
+
+    def admin(self):
+        return False # admin not allowed
+
+    def validate(self):
+        self.validate_range_bytesize('Maximum units', self.units_max, self.BYTES_UNITS,
+                optional=True, allow_zero=False)
+
+    def prepare(self):
+        units_max = self.units_max if self.units_max else 0
+
+        message = units_max.to_bytes(self.BYTES_UNITS, self.ENDIAN)
+
+        return message
+
+    @classmethod
+    def parse(cls, data):
+        if len(data) < cls.BYTES_UNITS:
+            raise ValueError('Not enough data while reading maximum units')
+        units_max = int.from_bytes(data[:cls.BYTES_UNITS], cls.ENDIAN)
+        if units_max == 0:
+            units_max = None
+        data = data[cls.BYTES_UNITS:]
+
+        return Register(units_max)
+
+
+class Unregister(Abstract):
+
+    BYTES_UNITS = 8
+
+    def __init__(self):
+        self.validate()
+
+    def __str__(self, indent=None):
+        return self.to_string(indent=indent)
+
+    def admin(self):
+        return False # admin not allowed
+
+    def validate(self):
+        pass
+
+    def prepare(self):
+        return None
+
+    @classmethod
+    def parse(cls, data):
+        return Unregister()
 

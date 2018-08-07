@@ -14,7 +14,7 @@ import unicodedata
 class Abstract(ABC):
     """Abstract base class for all ORBIT operations.
 
-    This class defines a some methods that subclasses are required to implement.
+    This class defines some methods that subclasses are required to implement.
     It also makes available a number of useful helper methods.
     """
 

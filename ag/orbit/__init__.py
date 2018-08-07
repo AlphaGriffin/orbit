@@ -14,13 +14,7 @@ ORBIT is a specification and API for tokens on Bitcoin Cash.
 from .__version__ import __version__
 print ("ORBIT API version %s" % (__version__))
 
-from .ops import Abstract
-#from .ops.address import Address
-from .ops.create import Create
-from .ops.transfer import Transfer
-from .ops.advertise import Advertise
-from .ops.register import Register
-from .ops.unregister import Unregister
+from .ops import Abstract, allocation, advertisement
 
 import math
 
@@ -74,7 +68,7 @@ class API:
                 return '{}'.format(self.major)
 
     version = Version(__version__)
-    genesis = 541337 # block height containing the first compatible ORBIT transaction
+    launched = 542161 # block height containing the first compatible ORBIT transaction
 
     # WARNING: preamble is also used in wallet decryption verification!
     PREAMBLE = b'\xA4\x20\x19\x81'
@@ -87,7 +81,7 @@ class API:
     # admin-only main operations
     OP_CREATE = b'\xA1'
     OP_ADVERTISE = b'\xAA'
-    #OP_ADVERTISE_CLOSE = b'\xAB'
+    OP_ADVERTISE_CANCEL = b'\xAC'
 
     # admin-only edit (alter) operations
     #OP_ALTER_SYMBOL = b'\xE0'
@@ -129,19 +123,22 @@ class API:
         #if isinstance(op, Address):
         #    data = self.OP_ADDRESS
 
-        if isinstance(op, Create):
+        if isinstance(op, allocation.Create):
             data += self.OP_CREATE
 
-        elif isinstance(op, Transfer):
+        elif isinstance(op, allocation.Transfer):
             data += self.OP_TRANSFER
 
-        elif isinstance(op, Advertise):
+        elif isinstance(op, advertisement.Advertise):
             data += self.OP_ADVERTISE
 
-        elif isinstance(op, Register):
+        elif isinstance(op, advertisement.Cancel):
+            data += self.OP_ADVERTISE_CANCEL
+
+        elif isinstance(op, advertisement.Register):
             data += self.OP_REGISTER
 
-        elif isinstance(op, Unregister):
+        elif isinstance(op, advertisement.Unregister):
             data += self.OP_UNREGISTER
 
         else:
@@ -222,19 +219,22 @@ class API:
         address, data = Abstract.deserialize_address(data)
 
         if data.startswith(self.OP_CREATE):
-            op = Create.parse(data[len(self.OP_CREATE):])
+            op = allocation.Create.parse(data[len(self.OP_CREATE):])
 
         elif data.startswith(self.OP_TRANSFER):
-            op = Transfer.parse(data[len(self.OP_TRANSFER):])
+            op = allocation.Transfer.parse(data[len(self.OP_TRANSFER):])
 
         elif data.startswith(self.OP_ADVERTISE):
-            op = Advertise.parse(data[len(self.OP_ADVERTISE):])
+            op = advertisement.Advertise.parse(data[len(self.OP_ADVERTISE):])
+
+        elif data.startswith(self.OP_ADVERTISE_CANCEL):
+            op = advertisement.Cancel.parse(data[len(self.OP_ADVERTISE_CANCEL):])
 
         elif data.startswith(self.OP_REGISTER):
-            op = Register.parse(data[len(self.OP_REGISTER):])
+            op = advertisement.Register.parse(data[len(self.OP_REGISTER):])
 
         elif data.startswith(self.OP_UNREGISTER):
-            op = Unregister.parse(data[len(self.OP_UNREGISTER):])
+            op = advertisement.Unregister.parse(data[len(self.OP_UNREGISTER):])
 
         else:
             raise ValueError('Not a supported ORBIT operation')

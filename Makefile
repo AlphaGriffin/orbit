@@ -96,6 +96,7 @@ html:
 	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(DOCDIR)/html
 	cp CHANGELOG $(DOCDIR)/html
 	cp LICENSE $(DOCDIR)/html
+	cp TODO $(DOCDIR)/html
 	@echo
 	@echo "Build finished. The HTML pages are in $(DOCDIR)/html."
 

@@ -59,7 +59,7 @@ Version 0 Details
 
 This is the *test* version of the specification, currently undergoing mainnet testing.
 
-ORBIT genesis block: **541337**
+ORBIT launch block: **542161**
 
 OP_CREATE
 ^^^^^^^^^
@@ -79,6 +79,13 @@ OP_ADVERTISE
 ^^^^^^^^^^^^
 
 Advertise a crowd-sale or free faucet.
+
+* Available to: **admin only**
+
+OP_ADVERTISE_CANCEL
+^^^^^^^^^^^^^^^^^^^
+
+Cancel an advertisement created with ``OP_ADVERTISE``. Cancellation is only allowed if nobody has yet registered with ``OP_REGISTER``.
 
 * Available to: **admin only**
 
@@ -151,6 +158,11 @@ Cross-Node Consistency
 ^^^^^^^^^^^^^^^^^^^^^^
 
 Although it is recommended that users run their own validating ORBIT node in order to guarantee they're seeing an accurate representation of tokens and balances, it's understood that this isn't always possible. So with this in mind, we want a mechanism where ORBIT nodes can easily communicate with each other to make sure they all agree on the state of tokens and balances at any given block. This could be accomplished by computing a hash on the entire set (retrieved in a deterministic and ordered fashion) and comparing it with neighboring nodes.
+
+BCH vs. ORBIT Validation
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+Just because a transaction is accepted into and confirmed by the BCH network does not mean it is guaranteed to be accepted by ORBIT nodes. Nodes should provide a mechanism for the front-ends to check the validity of a transaction before broadcasting. However, even a transaction that was checked to be valid by ORBIT, broadcasted, and confirmed by BCH all during the same block does not guarantee success. This is because other transactions included in that same block with a higher priority may affect the validity of the transaction.
 
 
 
