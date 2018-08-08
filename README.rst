@@ -2,6 +2,10 @@
 ORBIT - Op_Return Bitcoin-Implemented Tokens
 ############################################
 
+.. image:: https://badges.gitter.im/AlphaGriffin/orbit.svg
+   :alt: Join the chat at https://gitter.im/AlphaGriffin/orbit
+   :target: https://gitter.im/AlphaGriffin/orbit?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
+
 **Token standard specification and API for Bitcoin Cash**
 
 The official website for ORBIT is http://orbit.cash.
@@ -171,8 +175,3 @@ All changes are tracked in the `CHANGELOG <CHANGELOG>`_ file.
 
 *"Orbit the moon"*
 
-
-
-.. image:: https://badges.gitter.im/AlphaGriffin/orbit.svg
-   :alt: Join the chat at https://gitter.im/AlphaGriffin/orbit
-   :target: https://gitter.im/AlphaGriffin/orbit?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
