@@ -48,4 +48,12 @@ ag\.orbit\.wallet module
     :undoc-members:
     :show-inheritance:
 
+ag\.orbit\.webapi module
+------------------------
+
+.. automodule:: ag.orbit.webapi
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 

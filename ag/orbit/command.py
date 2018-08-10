@@ -4,7 +4,7 @@
 '''Helpers for command-line interfaces'''
 
 from contextlib import suppress
-from sys import argv, exit
+from sys import argv, exit, stdin
 
 
 def main(run):
@@ -40,11 +40,40 @@ def invoke(call, cmd, exit_val, run, args, args_min=0, args_max=0, pass_single=F
                 call, cmd, args_min, args_max))
             exit(exit_val)
 
-    #try:
-    run(args[0] if pass_single else args)
+    try:
+        run(args[0] if pass_single else args)
 
-    #except (ValueError, TypeError) as e:
-    #    print()
-    #    print("{} {}: {}".format(call, cmd, e))
-    #    exit(exit_val)
+    except (ValueError, TypeError) as e:
+        print()
+        print("{} {}: {}".format(call, cmd, e))
+        exit(exit_val)
+
+def _read_char():
+    try:
+        import termios
+
+    except ImportError:
+        # Non-POSIX; assume Windows
+        import msvcrt
+        return msvcrt.getch
+
+    # POSIX
+    import tty
+
+    def getch():
+        fd = stdin.fileno()
+        settings = termios.tcgetattr(fd)
+
+        try:
+            tty.setraw(fd)
+            char = stdin.read(1)
+
+        finally:
+            termios.tcsetattr(fd, termios.TCSADRAIN, settings)
+
+        return char
+
+    return getch
+
+read_char = _read_char()
 

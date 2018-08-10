@@ -1,7 +1,7 @@
 ORBIT Specification
 ===================
 
-All information concerning ORBIT events are stored on the Bitcoin Cash blockchain as data captured by OP_RETURN.
+All information concerning ORBIT events is stored on the Bitcoin Cash blockchain as data captured by OP_RETURN.
 
 Multibyte data is always stored as big endian (most-significant bytes first).
 
@@ -163,6 +163,21 @@ BCH vs. ORBIT Validation
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
 Just because a transaction is accepted into and confirmed by the BCH network does not mean it is guaranteed to be accepted by ORBIT nodes. Nodes should provide a mechanism for the front-ends to check the validity of a transaction before broadcasting. However, even a transaction that was checked to be valid by ORBIT, broadcasted, and confirmed by BCH all during the same block does not guarantee success. This is because other transactions included in that same block with a higher priority may affect the validity of the transaction.
+
+Address Reuse
+^^^^^^^^^^^^^
+
+We currently reuse addresses for tokens and users (that is, a single address receives multiple transactions). This is frowned upon by the Bitcoin community. See https://en.bitcoin.it/wiki/Address_reuse for more information.
+
+Bad Assumptions
+^^^^^^^^^^^^^^^
+
+The primary developer is by no means a Bitcoin expert. There could be any number of assumptions made about the way Bitcoins are processed that are potentially unsafe. Getting more eyes on the specifiction and code would go a long way towards removing bad assumptions!
+
+Flask Not for Production
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+We are currently using the Flask server to handle web API requests. However, Flask is intended for development use only, not production use.
 
 
 
