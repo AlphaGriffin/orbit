@@ -79,6 +79,7 @@ To-Do List
 There are a number of tasks already identified on the `To-Do list <TODO>`_ that could use your help (included here in generated documentation).
 
 .. include:: TODO
+   :literal:
 
 
 
@@ -97,7 +98,7 @@ Dependencies
 
 - Python 3
 - rfc3986 (``pip install rfc3986``)
-- BitCash: https://github.com/sporestack/bitcash (``pip install bitcash``)
+- BitCash >= 0.5.2.4: https://github.com/sporestack/bitcash (``pip install bitcash\>=0.5.2.4``)
 - *For building documentation (optional):* Sphinx and sphinx_rtd_theme (``pip install sphinx sphinx_rtd_theme``)
 
 
@@ -170,6 +171,7 @@ History
 All changes are tracked in the `CHANGELOG <CHANGELOG>`_ file.
 
 .. include:: CHANGELOG
+   :literal:
 
 ----
 

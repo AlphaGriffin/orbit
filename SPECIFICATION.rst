@@ -3,10 +3,21 @@ ORBIT Specification
 
 All information concerning ORBIT events is stored on the Bitcoin Cash blockchain as data captured by OP_RETURN.
 
-Multibyte data is always stored as big endian (most-significant bytes first).
-
 .. contents:: Specification Contents
    :local:
+
+
+
+Goals
+-----
+
+- **Simple** implementation that any average developer can understand.
+- **No changes required** to the Bitcoin protocol or Bitcoin Cash nodes.
+- **Low fee** transactions accomplished by keeping the payload data small.
+- Supporting token **crowd sales** and **free faucets** with no additional fees or conversions. Only the very low cost of a Bitcoin Cash transaction fee is required to create a new token. All token events and crowd-sale payments are made directly with Bitcoin Cash satoshis.
+- **Easy validation** so that any user can independently confirm token balances by running their own lightweight ORBIT node.
+- **Open source** with a permissive license so anybody is free to use and modify the code as they wish.
+
 
 
 General Form for OP_RETURN Data
@@ -15,6 +26,8 @@ General Form for OP_RETURN Data
 ORBIT events are identified by the presence of OP_RETURN data of the following general form::
 
     <PREAMBLE> <VERSION> <CONTINUES> <ADDRESS> <OPERATION>
+
+Multibyte data is always stored as big endian (most-significant bytes first).
 
 
 PREAMBLE

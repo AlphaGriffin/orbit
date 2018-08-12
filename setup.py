@@ -28,10 +28,10 @@ Some of this script logic also taken from:
 
 NS      = 'ag'                          # namespace / meta-package folder
 NAME    = 'orbit'                       # should match source package name in NS folder
-COMMAND = 'ORBIT'                       # command name may be different than package name
+COMMAND = None                          # command name may be different than package name
 REQUIRE = [                             # package dependencies
             'rfc3986',                      # for URI validation
-            'bitcash'                       # also pulls in cashaddress, which we use directly
+            'bitcash(>=0.5.2.4)'            # also pulls in cashaddress, which we use directly
           ]
 
 DESC    = 'Op_Return Bitcoin-Implemented Tokens'
@@ -120,6 +120,7 @@ if __name__ == '__main__':
         url=URL,
         classifiers=CLASS,
         keywords=TAGS,
+        scripts=([ COMMAND ] if COMMAND else None),
 
         # run-time dependencies
         install_requires=REQUIRE,

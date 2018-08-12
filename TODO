@@ -3,9 +3,8 @@ Master to-do list for all ORBIT projects:
 - finish API documentation
 - node to node communication and hash check (consensus)
 - handling node upgrades (hashes will be different and consensus will fail)
-- qt wallet (http://github.com/AlphaGriffin/orbit-gui)
 - web frontend services: token list, balance check, crowd-sales and faucets (upcoming, current, finished), web wallet
-- more cli functions (connect to node): token list, token balances, etc.
+- more cli functions (connect to node): token list, etc.
 - test cases
 - improved db indexes
 

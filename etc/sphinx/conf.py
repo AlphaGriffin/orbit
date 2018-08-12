@@ -281,7 +281,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, COMMAND, 'Specification for ' + DESC,
+    (master_doc, NAME.upper(), 'Specification for ' + DESC,
      [author], 5),
     ('api/modules', NS + '.' + NAME, 'API Documentation',
      [author], 3)
