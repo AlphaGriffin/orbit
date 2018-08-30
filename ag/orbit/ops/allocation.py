@@ -1,7 +1,7 @@
 # Copyright (C) 2018 Alpha Griffin
 # @%@~LICENSE~@%@
 
-from . import Abstract
+from ag.orbit.ops import Abstract
 
 from decimal import Decimal
 

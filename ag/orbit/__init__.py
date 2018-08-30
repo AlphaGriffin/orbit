@@ -11,10 +11,10 @@ ORBIT is a specification and API for tokens on Bitcoin Cash.
 .. moduleauthor:: Shawn Wilson <lannocc@alphagriffin.com>
 """
 
-from .__version__ import __version__
+from ag.orbit.__version__ import __version__
 print ("ORBIT API version %s" % (__version__))
 
-from .ops import Abstract, allocation, advertisement
+from ag.orbit.ops import Abstract, allocation, advertisement
 
 import math
 
