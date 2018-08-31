@@ -1,9 +1,9 @@
 # Copyright (C) 2018 Alpha Griffin
 # @%@~LICENSE~@%@
 
-from ag.orbit import API
-from ag.orbit.config import dir
-from ag.orbit.encryption import encrypt, decrypt
+from . import API
+from .config import dir
+from .encryption import encrypt, decrypt
 
 from bitcash import PrivateKey
 

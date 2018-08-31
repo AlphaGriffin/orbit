@@ -1,7 +1,7 @@
 # Copyright (C) 2018 Alpha Griffin
 # @%@~LICENSE~@%@
 
-from ag.orbit.ops import Abstract
+from . import Abstract
 
 
 class Advertise(Abstract):

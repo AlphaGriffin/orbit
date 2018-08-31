@@ -1,8 +1,6 @@
 Copyright (C) 2018 Alpha Griffin
 @%@~LICENSE~@%@
 
-saw_082918_1 - Change relative imports to absolute (for Windows).
-
 saw_081218_1 - Minor updates to documentation and setup.
 
 saw_081018_1 - Add web API.
